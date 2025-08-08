@@ -19,11 +19,12 @@ def get_week_dates(start_date=None):
     else:
         today = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
     
-    # Find the next Monday
-    days_until_monday = (7 - today.weekday()) % 7
-    start_day = today + datetime.timedelta(days_until_monday)
+    # Find the Monday of the current week (today's week)
+    days_since_monday = today.weekday()  # Monday is 0, Sunday is 6
+    monday = today - datetime.timedelta(days=days_since_monday)
+    
     # Get the week dates from Monday to Sunday 
-    week_dates = [start_day + datetime.timedelta(days=i) for i in range(7)]
+    week_dates = [monday + datetime.timedelta(days=i) for i in range(7)]
     return week_dates
 
 # Function to generate shifts using OR-Tools

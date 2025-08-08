@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
-
+import os
 from datetime import timedelta, datetime, date  # Import date explicitly
 
 from workscheduler.classes import User, Schedule, db
@@ -8,15 +8,32 @@ from workscheduler.core import login_required, admin_required, generate_shifts, 
 app = Flask(__name__, 
            template_folder='workscheduler/templates',
            static_folder='workscheduler/static')
-app.secret_key = 'your_secure_random_secret_key'  # Replace with a secure, randomly generated secret key
 
-# Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///scheduler.db'  # SQLite database file
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Configuration
+config_name = os.getenv('FLASK_ENV', 'development')
+if config_name == 'production':
+    from config import ProductionConfig
+    app.config.from_object(ProductionConfig)
+else:
+    from config import DevelopmentConfig
+    app.config.from_object(DevelopmentConfig)
+
+# Override with environment variables if they exist
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', app.config['SECRET_KEY'])
+database_url = os.environ.get('DATABASE_URL')
+if database_url:
+    # Fix postgres:// to postgresql:// for SQLAlchemy compatibility
+    if database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 
 # Initialize the database
 db.init_app(app)
 
+# Create tables if they don't exist (only in development)
+if config_name != 'production':
+    with app.app_context():
+        db.create_all()
 
 app.jinja_env.filters['datetimeformat'] = datetimeformat
 
@@ -372,4 +389,28 @@ def change_week(direction):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Create admin user if running directly and in development
+    with app.app_context():
+        # Create admin user if it doesn't exist
+        if not User.query.filter_by(username='admin').first():
+            admin_user = User(
+                username='admin',
+                first_name='Admin',
+                last_name='User',
+                email='admin@example.com',
+                phone='555-1234',
+                address='123 Admin St',
+                sick_hours=0,
+                pto_hours=0,
+                hourly_rate=0,
+                job_assignment='Administrator',
+                hire_date='2020-01-15',
+                role='admin'
+            )
+            admin_user.set_password('admin123')
+            db.session.add(admin_user)
+            db.session.commit()
+            print("Admin user created - Username: admin, Password: admin123")
+    
+    port = int(os.environ.get('PORT', 8080))
+    app.run(debug=(config_name != 'production'), host='0.0.0.0', port=port)
