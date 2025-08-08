@@ -51,53 +51,12 @@ Alternatively, use the startup script that handles database initialization autom
 python run.py
 ```
 
-## Deployment
-
-### Heroku Deployment
-
-1. **Create a Heroku app**
-   ```bash
-   heroku create your-app-name
-   ```
-
-2. **Set environment variables**
-   ```bash
-   heroku config:set FLASK_ENV=production
-   heroku config:set SECRET_KEY=your-super-secret-key-here
-   ```
-
-3. **Deploy**
-   ```bash
-   git push heroku main
-   ```
-
-4. **Initialize the database**
-   ```bash
-   heroku run python init_database.py
-   ```
-
-### Render Deployment
-
-1. **Connect your GitHub repository to Render**
-2. **Set environment variables**:
-   - `FLASK_ENV`: `production`
-   - `SECRET_KEY`: `your-super-secret-key-here`
-3. **Build command**: `pip install -r requirements.txt`
-4. **Start command**: `gunicorn app:app`
-
-### Environment Variables
-
-- `FLASK_ENV`: Set to `production` for production deployment
-- `SECRET_KEY`: A secure secret key for session management
-- `DATABASE_URL`: Database connection string (auto-set by most hosting providers)
-- `PORT`: Port to run the application on (auto-set by most hosting providers)
-
 ## Default Login
 
 - **Username**: admin
 - **Password**: admin123
 
-⚠️ **Important**: Change the default admin password after first login!er
+⚠️ **Important**: Change the default admin password after the first login!
 
 Download zip folder, open workscheduler folder, then open the terminal to type the following commands.
 
@@ -120,6 +79,4 @@ Initialize the Database in the terminal, copy the following command:
 - It will create the database file in the instance folder, you would have to create your own set of employees to test out the entire program functionality. If you do not want to create a set of employees, drag the database file from the sample folder into the instance folder that is created when the database was initialized.
 
 Run the program in the terminal, copy the following command:
-- python app.py
-
-Go to http://127.0.0.1:5000/ in your web browser to test it out!
+- python run.py
