@@ -1,51 +1,47 @@
-# Shift Scheduler
+# Shift Scheduler - Modern SPA
 
-A Flask-based web application for managing employee shifts and schedules.
+A modern Single Page Application (SPA) for managing employee shifts and schedules, built with Flask backend and dynamic frontend.
 
-## Features
+## ✨ Features
 
-- **Admin Dashboard**: Create and manage employee schedules
-- **Employee Portal**: View personal schedules and profile information
-- **Automatic Scheduling**: Generate optimal schedules using OR-Tools
-- **User Management**: Add, edit, and remove employees
-- **Shift Management**: Flexible shift types (opening, midday, closing)
+- **🌟 Modern SPA Architecture**: Lightning-fast navigation with no page reloads
+- **🏢 Admin Dashboard**: Create and manage employee schedules with real-time updates
+- **👥 Employee Portal**: View personal schedules and profile information
+- **🤖 Smart Scheduling**: Generate optimal schedules using OR-Tools optimization
+- **👨‍💼 User Management**: Add, edit, and remove employees with role-based access
+- **⚡ Flexible Shifts**: Support for opening, midday, and closing shift types
+- **📱 Mobile Responsive**: Works perfectly on all devices
 
-## Quick Start
+## 🚀 Quick Start
 
-### Local Development
+### Easy One-Command Setup
 
-1. **Clone the repository**
+1. **Clone and setup**:
    ```bash
    git clone https://github.com/kushbajaria/Shift-Scheduler.git
    cd Shift-Scheduler
    ```
 
-2. **Create a virtual environment**
+2. **Run the SPA**:
    ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   python run.py
    ```
+   This automatically:
+   - Installs required packages
+   - Sets up the database
+   - Starts the SPA server
+   - Opens your browser
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+3. **Login and start scheduling**:
+   - Username: `admin`
+   - Password: `admin123`
 
-4. **Initialize the database**
-   ```bash
-   python init_database.py
-   ```
+## 🏗️ Modern SPA Architecture
 
-5. **Run the application**
-   ```bash
-   python app.py
-   ```
-
-6. **Access the application**
-   - Open your browser to `http://localhost:5000`
-   - Login with:
-     - Username: `admin`
-     - Password: `admin123`
+- **Backend**: Flask API server (`app.py`) with SQLite database
+- **Frontend**: Dynamic Single Page Application with real-time updates
+- **Smart Optimization**: OR-Tools powered schedule generation
+- **Zero Configuration**: Everything works out of the box
 
 ### Using the Startup Script
 

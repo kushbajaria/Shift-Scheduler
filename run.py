@@ -38,13 +38,12 @@ def find_available_port():
 
 def check_database():
     """Check if database exists and is properly initialized"""
-    db_path = os.path.join(project_root, 'scheduler.db')
-    if not os.path.exists(db_path):
-        print("⚠️  Database not found. Initializing database...")
-        from init_database import init_database
-        if not init_database():
-            print("❌ Failed to initialize database")
-            return False
+    # The app.py file now handles database initialization automatically
+    # Just check if the instance directory exists
+    instance_dir = os.path.join(project_root, 'instance')
+    if not os.path.exists(instance_dir):
+        os.makedirs(instance_dir, exist_ok=True)
+        print("⚠️  Database directory created. Database will be initialized automatically.")
     return True
 
 def start_application():
@@ -60,8 +59,9 @@ def start_application():
             print("❌ No available ports found between 8080-9000")
             return
             
-        print("🚀 Starting Shift Scheduler application...")
+        print("🚀 Starting Shift Scheduler SPA...")
         print(f"📊 Access the application at: http://localhost:{port}")
+        print("🌟 Modern Single Page Application with full backend")
         print("👤 Default admin login:")
         print("   Username: admin")
         print("   Password: admin123")
@@ -73,7 +73,7 @@ def start_application():
         
         # Import and run the Flask app
         from app import app
-        app.run(debug=True, host='0.0.0.0', port=port)
+        app.run(debug=True, host='0.0.0.0', port=port, use_reloader=False)
         
     except KeyboardInterrupt:
         print("\n👋 Server stopped by user")
